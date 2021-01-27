@@ -39,6 +39,9 @@ SENSOR_TYPES = {
     "temperature_core": ["sensors", "temperature", TEMP_CELSIUS, "mdi:thermometer"],
     "fan_speed": ["sensors", "fan speed", "RPM", "mdi:fan"],
     "battery": ["sensors", "charge", PERCENTAGE, "mdi:battery"],
+    "gpu_use_percent": ["gpu", "GPU used percent", PERCENTAGE, "mdi:expansion-card"],
+    "gpu_memory_use_percent": ["gpu", "GPU VRAM used percent", PERCENTAGE, "mdi:expansion-card"],
+    "temperature_gpu": ["gpu", "GPU temperature", TEMP_CELSIUS, "mdi:expansion-card"],
     "docker_active": ["docker", "Containers active", "", "mdi:docker"],
     "docker_cpu_use": ["docker", "Containers CPU used", PERCENTAGE, "mdi:docker"],
     "docker_memory_use": [

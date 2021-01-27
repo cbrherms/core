@@ -45,6 +45,18 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
                                 SENSOR_TYPES[sensor_type],
                             )
                         )
+            elif sensor_details[0] == "gpu":
+                for gpu in client.api.data[sensor_details[0]]:
+                        dev.append(
+                            GlancesSensor(
+                                client,
+                                name,
+                                gpu["gpu_id"],
+                                SENSOR_TYPES[sensor_type][1],
+                                sensor_type,
+                                SENSOR_TYPES[sensor_type],
+                            )
+                        )
             elif client.api.data[sensor_details[0]]:
                 dev.append(
                     GlancesSensor(
@@ -157,6 +169,26 @@ class GlancesSensor(Entity):
                             (disk["size"] - disk["used"]) / 1024 ** 3,
                             1,
                         )
+            elif self.sensor_details[0] == "gpu":
+                for var in value["gpu"]:
+                    if var["gpu_id"] == self._sensor_name_prefix:
+                        gpu = var
+                        break
+                if self.type == "gpu_use_percent":
+                    try:
+                        self._state = gpu["proc"]
+                    except KeyError:
+                        self._state = STATE_UNAVAILABLE
+                elif self.type == "gpu_memory_use_percent":
+                    try:
+                        self._state = round(gpu["mem"], 1)
+                    except KeyError:
+                        self._state = STATE_UNAVAILABLE
+                elif self.type == "temperature_gpu":
+                    try:
+                        self._state = gpu["temperature"]
+                    except KeyError:
+                        self._state = STATE_UNAVAILABLE
             elif self.type == "battery":
                 for sensor in value["sensors"]:
                     if sensor["type"] == "battery":
